@@ -1,4 +1,3 @@
-
 /**
  * Martin Egli
  * 2019-09-02
@@ -8,8 +7,8 @@
 
 res_final = 100;
 res_draw = 40;
-res = res_final;
-//res = res_draw;
+//res = res_final;
+res = res_draw;
 
 /* - vitamins --------------------------------------------------------------- */
 module outerPiston() {
@@ -107,18 +106,6 @@ module displacerMetal(hmet = 1) {
 }
 
 /* - 3d printed parts ------------------------------------------------------- */
-/*module springHolder(rsh=3, lsh=5) {
-    hull() {
-        translate([lsh,-rsh/2,0])
-        sphere(r=rsh,$fn=res);
-        translate([lsh,rsh/2,0])
-        sphere(r=rsh,$fn=res);
-        translate([-lsh,rsh/2,0])
-        sphere(r=rsh,$fn=res);
-        translate([-lsh,-rsh/2,0])
-        sphere(r=rsh,$fn=res);
-    }
-}*/
 
 module springHolder(rsh=3, lsh=5) {
     translate([-lsh/2,0,0])
@@ -132,7 +119,8 @@ module springHolder(rsh=3, lsh=5) {
 }
 
 
-module pistonSpring(th=0.5, slength = 120) {
+module pistonSpring(th=1.0, slength = 120) {
+    hsprh = 2.7;
     color("Green") {
         difference() {
             union() {
@@ -140,12 +128,29 @@ module pistonSpring(th=0.5, slength = 120) {
                 cylinder(r=8/2,h=5,$fn=res);
                 // arms with holder
                 translate([-slength,0,0]) {
-                    translate([0,-1,0])
-                    cube([2*slength,2,th]);
-                    translate([0,0,2.9])
-                    springHolder(rsh = 2.9, lsh = 5);
-                    translate([2*slength,0,2.9])
-                    springHolder(rsh = 2.9, lsh=5);
+                    translate([0,-1.5,0])
+                    cube([2*slength,3,th]);
+                    translate([3.5,-1.5,0])
+                    difference() {
+                        translate([0,0,0])
+                        cube([hsprh*2,3,hsprh*2]);
+                        rotate([90,0,0])
+                        translate([hsprh*2,hsprh*2+th,-hsprh*1.5])
+                        cylinder(r = hsprh*2, h = hsprh*2, $fn = res);
+                    }                    
+                    translate([0,0,hsprh])
+                    springHolder(rsh = hsprh, lsh = 7);
+
+                    translate([2*slength-6.2,-1.5,0])
+                    difference() {
+                        translate([-hsprh,0,0])
+                        cube([hsprh*2,3,hsprh*2]);
+                        rotate([90,0,0])
+                        translate([-hsprh,hsprh*2+th,-hsprh*1.5])
+                        cylinder(r = hsprh*2, h = hsprh*2, $fn = res);
+                    }
+                    translate([2*slength,0,hsprh])
+                    springHolder(rsh = hsprh, lsh=7);
                 }
             }
             translate([0,0,-1])
@@ -220,31 +225,6 @@ translate([(dreg+dreghole)/2*cos(ang),(dreg+dreghole)/2*sin(ang), 0])
     }
 }
 
-module regeneratorCutout2(dreg, dreghole, part_circle, hcut){
-    ang = 360/part_circle;
-    translate([0,0,-1]) {
-        rotate([0,0,-ang/2]) {
-            rotate_extrude(angle=ang, convexity = 10, $fn = res)
-            translate([dreg/2, 0, 0])
-            difference() {
-                union() {
-                    translate([0,0,0])
-                    square([dreghole, hcut+2], $fn = res);
-                    translate([-2,2,0])
-                    square([hcut+2, dreghole], $fn = res);
-                }
-                translate([-2,2,0])
-                circle(r=2, $fn=res);
-            }
-translate([(dreg+dreghole)/2*cos(0),(dreg+dreghole)/2*sin(0), 0])
-            cylinder(r=dreghole/2, h=hcut+2,$fn=res);
-translate([(dreg+dreghole)/2*cos(ang),(dreg+dreghole)/2*sin(ang), 0])
-            cylinder(r=dreghole/2, h=hcut+2,$fn=res);
-        }
-    }
-}
-//regeneratorCutout2(100+2, 4, 9.5, 4);
-
 module displacerCaseMount(hdcm=4) {
     din = 100.0;
     dout = din+20;
@@ -271,9 +251,14 @@ module displacerCaseMount(hdcm=4) {
                 cylinder(r=2.5/2,h=hdcm+2,$fn=res);
             }
             // regenerator holes
-            for(n=[0:7]) {
-                rotate([0,0,45*n])
-                regeneratorCutout2(din+1, 4, 9.5, hdcm);
+            for(n=[0:3]) {
+                rotate([0,0,90*n])
+                regeneratorCutout(din+2, 3, 9.5, hdcm);
+            }
+            // connection bolts (M3) for glueing
+            for(n=[0:3]) {
+                translate([(din+2+3)/2*cos(90*n+45),(din+2+3)/2*sin(90*n+45),-1])
+                cylinder(r=2.5/2,h=hdcm+2,$fn=res);
             }
         }
     }
@@ -293,9 +278,14 @@ module displacerCase(hdc=2) {
             cylinder(r=din/2,h=hdc+2,$fn=res);
 
             // regenerator holes
-            for(n=[0:7]) {
-                rotate([0,0,45*n])
-                regeneratorCutout(din+1, 4, 9.5, hdc);
+            for(n=[0:3]) {
+                rotate([0,0,90*n])
+                regeneratorCutout(din+2, 3, 9.5, hdc);
+            }
+            // connection bolts (M3) for glueing
+            for(n=[0:3]) {
+                translate([(din+2+3)/2*cos(90*n+45),(din+2+3)/2*sin(90*n+45),-1])
+                cylinder(r=2.5/2,h=hdc+2,$fn=res);
             }
         }
     }
@@ -366,7 +356,7 @@ module putTogether(cut=1) {
 /* outerPistonHolder: 
  *  OK, super dimensions
  *  no need to reprint */
-outerPistonHolder();    // 1 x
+//outerPistonHolder();    // 1 x
 
 /* innerPiston: 
  *  Adjustments, 
@@ -378,7 +368,7 @@ outerPistonHolder();    // 1 x
 /* pistonSpring
  *  Adjustments: sprintHolder too small, 0.5 mm to small, make 0.4 mm larger
  *  reprint */
-//pistonSpring(); // 2 x
+pistonSpring(); // 2 x
 
 //translate([0,0,14])
 //displacerCaseMount(4);  // 2 x
