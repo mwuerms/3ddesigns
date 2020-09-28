@@ -2,7 +2,7 @@
  * Martin Egli
  * 2020-09-28
  */
-res = 50;
+res = 20;
 
 module holderD() {
     difference() {
@@ -45,7 +45,7 @@ module holderD() {
         // M3 screw and nut cut out
         translate([23,6,5])
         rotate([90,0,0]) {
-        cylinder(d=3, h = 12, $fn= res);
+            cylinder(d=3, h = 12, $fn= res);
             translate([0,0,1])
             cylinder(d1=6, d2=3, h = 2, $fn= res);
             
@@ -53,10 +53,109 @@ module holderD() {
             cylinder(d=6.2, h = 2, $fn= 6);
         }
         
-        //translate([-5, 0, -5])
-        //cube(40);
+        translate([-5, 0, -5])
+        cube(40);
     }
 }
 
-holderD();
+module holderEAll() {
+    difference() {
+        union() {
+            hull() {
+                translate([0,0,1])
+                cylinder(d=10, h=2, $fn=res);
+                translate([-10.5,0,1])
+                cylinder(d=10, h=2, $fn=res);
+                translate([0,0,0])
+                cylinder(d=8, h=1, $fn=res);
+                translate([-10.5,0,0])
+                cylinder(d=8, h=1, $fn=res);
+            }
+            
+            // 6 mm axis top
+            translate([0,0,0])
+            cylinder(d=6, h=7.5, $fn=res);
+            // 6 mm axis bottom
+            translate([0,0,8.5])
+            cylinder(d=6, h=7.5, $fn=res);
+            
+            hull() {
+                translate([0,0,13])
+                cylinder(d=10, h=2, $fn=res);
+                translate([-10.5,0,13])
+                cylinder(d=10, h=2, $fn=res);
+                translate([0,0,15])
+                cylinder(d=8, h=1, $fn=res);
+                translate([-10.5,0,15])
+                cylinder(d=8, h=1, $fn=res);
+            }
+            
+            translate([-10.5,0,1])
+            cylinder(d=10, h=14, $fn=res);
+            
+            hull(){
+                translate([-10.5,0,0]) {
+                    translate([0,0,0])
+                    cylinder(d=8, h=1, $fn=res);
+                    translate([0,0,1])
+                    cylinder(d=10, h=14, $fn=res);
+                    translate([0,0,15])
+                    cylinder(d=8, h=1, $fn=res);
+                }
+                
+                translate([-10.5-(20*cos(75)),(20*sin(75)),0]) {
+                    translate([0,0,0])
+                    cylinder(d=4, h=1, $fn=res);
+                    translate([0,0,1])
+                    cylinder(d=6, h=14, $fn=res);
+                    translate([0,0,15])
+                    cylinder(d=4, h=1, $fn=res);
+                }
+            }
+        }
+    
+        // M3 screw and nut cut out
+        translate([0,0,-1]) {
+        //rotate([90,0,0]) {
+            cylinder(d=3, h = 18, $fn= res);
+            translate([0,0,1])
+            cylinder(d1=6, d2=3, h = 2, $fn= res);
+            
+            translate([0,0,15])
+            cylinder(d=6.2, h = 2, $fn= 6);
+        }
+        // M3 screw and nut cut out
+        translate([-10.5,0,-1]) {
+        //rotate([90,0,0]) {
+            cylinder(d=3, h = 18, $fn= res);
+            translate([0,0,1])
+            cylinder(d1=6, d2=3, h = 2, $fn= res);
+            
+            translate([0,0,15])
+            cylinder(d=6.2, h = 2, $fn= 6);
+        }
+    }
+}
 
+module holderELeft() {
+    difference() {
+        translate([0,0,-8])
+        holderEAll();
+        translate([-25, -25, 0])
+        cube(50);
+    }
+}
+
+module holderERight() {
+    difference() {
+        translate([0,0,-8])
+        holderEAll();
+        translate([-25, -25, -50])
+        cube(50);
+    }
+}
+
+//holderD();
+//translate([0,0,-3]) holderEAll();
+translate([0,0,-2]) holderELeft();
+translate([0,0,+2]) holderERight();
