@@ -5,7 +5,7 @@
 
 res = 50;
 
-module bv_domino(l, b, t, d1 = 3) {
+module bv_domino(l, b, t, d1 = 3, number = 1) {
     difference() {
         /*if(bev == 0) {
             translate([0, 0, 0])
@@ -59,16 +59,37 @@ module bv_domino(l, b, t, d1 = 3) {
         // middle
         xmiddle = l/2+(l/2)/2;
         ymiddle = b/2;
-        translate([xmiddle, ymiddle, t+2])
-        sphere(d = 8, $fn = res);
-        translate([xmiddle+b*0.30, ymiddle+b*0.30, t+2])
-        sphere(d = 8, $fn = res);
-        translate([xmiddle+b*0.30, ymiddle-b*0.30, t+2])
-        sphere(d = 8, $fn = res);
-        translate([xmiddle-b*0.30, ymiddle+b*0.30, t+2])
-        sphere(d = 8, $fn = res);
-        translate([xmiddle-b*0.30, ymiddle-b*0.30, t+2])
-        sphere(d = 8, $fn = res);
+        dotdia = 7;
+        dotdepth = 2;
+        if((number == 1) || (number == 3) || (number == 5)) {
+            translate([xmiddle, ymiddle, t+dotdepth])
+            sphere(d = dotdia, $fn = res);
+        }
+        if((number == 2) || (number == 3) || (number == 4) || (number == 5) || (number == 6)) {
+            translate([xmiddle+b*0.25, ymiddle+b*0.25, t+dotdepth])
+            sphere(d = dotdia, $fn = res);
+        }
+        if((number == 6)) {
+            translate([xmiddle+b*0, ymiddle+b*0.25, t+dotdepth])
+            sphere(d = dotdia, $fn = res);
+        }
+        if((number == 4) || (number == 5) || (number == 6)) {
+            translate([xmiddle+b*0.25, ymiddle-b*0.25, t+dotdepth])
+            sphere(d = dotdia, $fn = res);
+        }
+        if((number == 4) || (number == 5) || (number == 6)) {
+            translate([xmiddle-b*0.25, ymiddle+b*0.25, t+dotdepth])
+            sphere(d = dotdia, $fn = res);
+        }
+        if((number == 6)) {
+            translate([xmiddle-b*0, ymiddle-b*0.25, t+dotdepth])
+            sphere(d = dotdia, $fn = res);
+        }
+        if((number == 2) || (number == 3) || (number == 4) || (number == 5) || (number == 6)) {
+            translate([xmiddle-b*0.25, ymiddle-b*0.25, t+dotdepth])
+            sphere(d = dotdia, $fn = res);
+        }
     }
 }
-bv_domino(56, 28, 13);
+// dots for 1, 2, 3, 4, 5, 6
+bv_domino(56, 28, 13, 4, 6);
