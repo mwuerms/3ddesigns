@@ -51,8 +51,7 @@ module dino(th = 2) {
 }
 }
 
-translate([0, 30, 0])
-heicho(2);
+//translate([0, 42, 0])
+heicho(3);
 
-
-dino(2);
+//dino(3);
