@@ -6,28 +6,29 @@
 
 res = 50;
 
-module embossed_text(str, str_h = 2, str_fn = 20, str_font = "Arial:style=Bold") {
+module embossed_text(str, str_h = 2, str_size = 12, str_fn = 20, str_font = "Arial:style=Bold") {
     minkowski() 
     {
         translate([0, 0, 0])
         linear_extrude(0.1)
-        text(str, font = str_font, size = 12, $fn = str_fn);
+        text(str, font = str_font, size = str_size, $fn = str_fn);
         
-        cylinder(d1 = 1.5, d2 = 0, h = str_h, $fn = str_fn);
+        cylinder(d1 = 2, d2 = 0, h = str_h, $fn = str_fn);
     }
 }
 
-module embossed_test_text(str, str_h = 2, str_fn = 20, str_font = "Arial:style=Bold") {
+module embossed_test_text(str, str_h = 2, str_size = 12, str_fn = 20, str_font = "Arial:style=Bold") {
     //minkowski() 
     {
         translate([0, 0, 0])
         linear_extrude(str_h+0.1)
-        text(str, font = str_font, size = 12, $fn = str_fn);
+        text(str, font = str_font, size = str_size, $fn = str_fn);
         
-        cylinder(d1 = 1.5, d2 = 0, h = str_h, $fn = str_fn);
+        cylinder(d1 = 2, d2 = 0, h = str_h, $fn = str_fn);
     }
 }
 
+/*
 difference() {
     // casting mold
     hull() {
@@ -46,7 +47,7 @@ difference() {
     // text to cut out
     union() {
         translate([0, 0, 2])
-        embossed_text("Jonas' Idee", str_h = 5, str_fn = res);
+        //embossed_text("Jonas' Idee", str_h = 5, str_fn = res);
         //embossed_test_text("Jonas' Idee", str_h = 5, str_fn = res);
         
         hull() {
@@ -64,4 +65,6 @@ difference() {
     
     // to see inside
     //cube(20);
-}
+}*/
+
+//attention will compile for 15 min! embossed_text("Jonas' Idee", str_size = 30, str_h = 3, str_fn = res);
