@@ -4,16 +4,16 @@
  * chocolate casting form
  */
 
-res = 50;
+res = 20;
 
-module embossed_text(str, str_h = 2, str_size = 12, str_fn = 20, str_font = "Arial:style=Bold") {
+module embossed_text(str, str_h = 2, str_size = 12, str_fn = 20, rim_wid = 2, str_font = "Arial:style=Bold") {
     minkowski() 
     {
         translate([0, 0, 0])
         linear_extrude(0.1)
         text(str, font = str_font, size = str_size, $fn = str_fn);
         
-        cylinder(d1 = 2, d2 = 0, h = str_h, $fn = str_fn);
+        cylinder(d1 = rim_wid, d2 = rim_wid-2, h = str_h, $fn = str_fn);
     }
 }
 
@@ -68,3 +68,9 @@ difference() {
 }*/
 
 //attention will compile for 15 min! embossed_text("Jonas' Idee", str_size = 30, str_h = 3, str_fn = res);
+//embossed_text("Jonas' Idee", str_size = 24, str_h = 3, rim_wid = 2, str_fn = res);
+//embossed_text("Jonas' Idee", str_size = 24, str_h = 3, rim_wid = 4, str_fn = res);
+//embossed_text("Robert", str_size = 24, str_h = 3, str_fn = res);
+//embossed_test_text("Robert", str_size = 24, str_h = 3, str_fn = res);
+
+
