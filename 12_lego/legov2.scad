@@ -181,6 +181,76 @@ module legoArms(loc_res = 20, show_origin = 1) {
     }
 }
 
+module legoArmsWide(loc_res = 20, show_origin = 1, wid1 = 2) {
+    if(show_origin) {
+        translate([0, 0, 0])
+        sphere(d = 1, $fn = loc_res);
+    }
+    // left arm
+    translate([0, -2, 0]) {
+        difference() {
+            union () {
+                hull() {
+                    translate([0, 5.5/2, 0])
+                    sphere(d = 5.5, $fn = loc_res);
+                    translate([0, 5.5/2-wid1, 0])
+                    sphere(d = 5.5, $fn = loc_res);
+                    translate([0, 5, -5])
+                    sphere(d = 5.0, $fn = loc_res);
+                    translate([0, 5-wid1, -5])
+                    sphere(d = 5.0, $fn = loc_res);
+                }
+                hull() {
+                    translate([0, 5, -5])
+                    sphere(d = 5.0, $fn = loc_res);
+                    translate([0, 5-wid1, -5])
+                    sphere(d = 5.0, $fn = loc_res);
+                    translate([4, 5.7, -5-5])
+                    sphere(d = 4.0, $fn = loc_res);
+                    translate([4, 5.7-wid1, -5-5])
+                    sphere(d = 4.0, $fn = loc_res);
+                }
+            }
+            translate([2, 1-wid1, -12])
+            rotate([0, 50, 0])
+            cube([7, 9+wid1, 7]);
+        }
+        // hand
+        translate([3.5, 5.75, -9.5])
+        rotate([0, 50, 0])
+        difference() {
+            union() {
+                hull() {
+                    translate([0, 0, 0])
+                    rotate([0, 90, 0])
+                    cylinder(d = 3, h= 5, $fn = loc_res);
+                    translate([0, -wid1, 0])
+                    rotate([0, 90, 0])
+                    cylinder(d = 3, h= 5, $fn = loc_res);
+                }
+                hull() {
+                    translate([5/2+2, 0, -3/2])
+                    rotate([0, 0, 0])
+                    cylinder(d = 5, h= 4, $fn = loc_res);
+                    translate([5/2+2, -wid1, -3/2])
+                    rotate([0, 0, 0])
+                    cylinder(d = 5, h= 4, $fn = loc_res);
+                }
+            }
+            translate([4, 3-wid1, 1])
+            difference() {
+                translate([0, -6-wid1, -6])
+                cube([6, 6+2+wid1, 6]);
+                translate([0, 0.5+wid1, 0])
+                rotate([90, 0, 0])
+                cylinder(d = 5.2, h= 9+wid1, $fn = loc_res);
+            }
+            translate([6.6, -3-2.5-wid1, 0.5])
+            cube([3, 9+wid1, 3]);
+        }
+    }
+}
+
 module legoFigure(loc_res = 20, show_origin = 1, show_face = 1, arm_angle = 0) {
     if(show_origin) {
         translate([0, 0, 0])
@@ -192,37 +262,120 @@ module legoFigure(loc_res = 20, show_origin = 1, show_face = 1, arm_angle = 0) {
     legoBody(loc_res, show_origin);
     translate([0, 0, 0])
     legoLegs(loc_res, show_origin);
-    
+    /* no arms
     // left arm
     translate([0, 6, 16+10])
     rotate([0, arm_angle, 0])
     mirror([0, 0, 0])
-    legoArms(loc_res, show_origin);
+    legoArmsWide(loc_res, show_origin, 1);
     // right arm
     translate([0, -6, 16+10])
     rotate([0, arm_angle, 0])
     mirror([0, 1, 0])
-    legoArms(loc_res, show_origin);
-
+    legoArmsWide(loc_res, show_origin, 1);
+    */
 }
 
-module legoHull() {
+module legoHull(loc_res = 32) {
     difference()
     {
         union() {
-            //import(file = "legov1noface.stl");
-            import(file = "legov2hull.stl");
+            import(file = "legov21hullNoArms.stl");
+            // arm sleves
+            hull() {
+                translate([0, 7, 27])
+                sphere(d = 8, $fn = loc_res);
+                translate([-2, 8, 18])
+                sphere(d = 8, $fn = loc_res);
+                translate([2, 9, 12])
+                sphere(d = 8, $fn = loc_res);
+            }
+            hull() {
+                translate([0, -7, 27])
+                sphere(d = 8, $fn = loc_res);
+                translate([-2, -8, 18])
+                sphere(d = 8, $fn = loc_res);
+                translate([2, -9, 12])
+                sphere(d = 8, $fn = loc_res);
+            }
             translate([-10, -1.5, -0.64])
             cube([20, 3, 41]);
-            translate([-1.5, -15, -0.64])
-            cube([3, 30, 41]);
+            translate([-1.5, -16, -0.64])
+            cube([3, 32, 41]);
+            /*translate([-10, -15, -0.64])
+            cube([20, 30, 41]);
+            translate([0, 0, -0.64])
+            cylinder(d = 15, h = 41, $fn = 20);*/
+            /*hull() {
+                translate([0, 7, -0.64])
+                cylinder(d = 15, h = 30, $fn = 20);
+                translate([0, -7, -0.64])
+                cylinder(d = 15, h = 30, $fn = 20);
+            }*/
         }
-        //import("legov1.stl");
-        import("legov2.stl");
+        import("legov21.stl");
+        translate([0, 0, 36])
+        cylinder(d = 5, h = 10, $fn = 32);
         
+        // 1mm screw holes
+        translate([6, -3, 6])
+        rotate([0, 90, 90])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([8, -3, 20])
+        rotate([0, 90, 90])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([8, -3, 34])
+        rotate([0, 90, 90])
+        cylinder(d = 1, h = 6, $fn = 20);
+
+        translate([-7, -3, 6])
+        rotate([0, 90, 90])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([-7, -3, 20])
+        rotate([0, 90, 90])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([-8, -3, 34])
+        rotate([0, 90, 90])
+        cylinder(d = 1, h = 6, $fn = 20);        
+        
+        translate([-3, 11, 6])
+        rotate([0, 90, 0])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([-3, 14, 20])
+        rotate([0, 90, 0])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([-3, 8, 34])
+        rotate([0, 90, 0])
+        cylinder(d = 1, h = 6, $fn = 20);
+
+        translate([-3, -11, 6])
+        rotate([0, 90, 0])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([-3, -14, 20])
+        rotate([0, 90, 0])
+        cylinder(d = 1, h = 6, $fn = 20);
+        translate([-3, -8, 34])
+        rotate([0, 90, 0])
+        cylinder(d = 1, h = 6, $fn = 20);
+        
+        // "cutting edge XD hehe"
+        translate([-3, -19, -5])
+        rotate([20, 0, 0])
+        cube([6, 10, 20]);
+        translate([-3, 19-10, -5])
+        rotate([-20, 0, 0])
+        cube([6, 10, 20]);
+        
+        translate([-3, 19-3, 20])
+        rotate([20, 0, 0])
+        cube([6, 10, 23]);
+     
+        translate([-3, -20-6, 22])
+        rotate([-20, 0, 0])
+        cube([6, 10, 25]);   
     }
 }
-
+        
 // quadrant 1
 module hullQuadrant(quad = 1) {
     difference() {
@@ -231,65 +384,71 @@ module hullQuadrant(quad = 1) {
         // show quadrant 1
         if(quad == 1) {
             // 2
-            translate([-20, 0, -5])
-            cube([20, 20, 50]);
+            translate([-26, 0, -5])
+            cube([26, 26, 50]);
             // 3
-            translate([-20, -20, -5])
-            cube([20, 20, 50]);
+            translate([-26, -20, -5])
+            cube([26, 26, 50]);
             // 4
-            translate([0, -20, -5])
-            cube([20, 20, 50]);
+            translate([0, -26, -5])
+            cube([26, 26, 50]);
         }
         // show quadrant 2
         else if(quad == 2) {
             // 1
             translate([0, 0, -5])
-            cube([20, 20, 50]);
+            cube([26, 26, 50]);
             // 3
-            translate([-20, -20, -5])
-            cube([20, 20, 50]);
+            translate([-26, -26, -5])
+            cube([26, 26, 50]);
             // 4
-            translate([0, -20, -5])
-            cube([20, 20, 50]);
+            translate([0, -26, -5])
+            cube([26, 26, 50]);
         }
         // show quadrant 3
         else if(quad == 3) {
             // 1
             translate([0, 0, -5])
-            cube([20, 20, 50]);
+            cube([26, 26, 50]);
             // 2
-            translate([-20, 0, -5])
-            cube([20, 20, 50]);
+            translate([-26, 0, -5])
+            cube([26, 26, 50]);
             // 4
-            translate([0, -20, -5])
-            cube([20, 20, 50]);
+            translate([0, -26, -5])
+            cube([26, 26, 50]);
         }
         // show quadrant 4
         else /* if(quad == 4) */ {
             // 1
             translate([0, 0, -5])
-            cube([20, 20, 50]);
+            cube([26, 26, 50]);
             // 2
-            translate([-20, 0, -5])
-            cube([20, 20, 50]);
+            translate([-26, 0, -5])
+            cube([26, 26, 50]);
             // 3
-            translate([-20, -20, -5])
-            cube([20, 20, 50]);
+            translate([-26, -26, -5])
+            cube([26, 26, 50]);
         }
     }
 }
 
-//hullQuadrant(1);
+// molds
+scale([3, 3, 3])
+hullQuadrant(1);
+//hullQuadrant(2);
+//hullQuadrant(3);
+//hullQuadrant(4);
 
 
 // testing
 //legoHead();
 //legoArms();
+//legoArmsWide();
 //legoLegs();
-
+   
 // normal figure
 //legoFigure(32, 0, 1, 22);
-legoFigure(12, 0, 1, 22);
+//legoFigure(12, 0, 1, 22);
 
 // outline + 1mm
 /*minkowski() {
