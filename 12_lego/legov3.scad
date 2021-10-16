@@ -255,9 +255,9 @@ module legoFigure(loc_res = 20, show_origin = 1, show_face = 1, complex_hand = 1
 //legoFigure(10, 0, 1, 0, 22);
 
 // outline + 1mm
-minkowski() {
+/*minkowski() {
     scale([2, 2, 2])
     legoFigure(10, 0, 0, 0, 22);
     sphere(d = 1.3, $fn = 20);
 }
-
+*/
