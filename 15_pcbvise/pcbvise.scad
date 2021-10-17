@@ -63,68 +63,68 @@ module lineElem(L = 5, w = 1, th = 2) {
     cube([w, L, th]);
 }
 
-module spring1() {
+module spring1(w = 1, th = 2) {
     translate([0, 0, 0])
-    curveElem(5, 1, 2, 3);
+    curveElem(5, w, th, 3);
     translate([0, 0, 0])
-    curveElem(5, 1, 2, 4);
+    curveElem(5, w, th, 4);
     translate([5, 0, 0])
-    lineElem(5);
+    lineElem(5, w, th);
     translate([10, 5, 0])
-    curveElem(5, 1, 2, 2);
+    curveElem(5, w, th, 2);
     translate([10, 5, 0])
-    curveElem(5, 1, 2, 1);
+    curveElem(5, w, th, 1);
     translate([15, -10, 0])
-    lineElem(15);
+    lineElem(15, w, th);
     translate([20, -10, 0])
-    curveElem(5, 1, 2, 3);
+    curveElem(5, w, th, 3);
     translate([20, -10, 0])
-    curveElem(5, 1, 2, 4);
+    curveElem(5, w, th, 4);
     translate([25, -10, 0])
-    lineElem(15);
+    lineElem(15, w, th);
     translate([30, 5, 0])
-    curveElem(5, 1, 2, 2);
+    curveElem(5, w, th, 2);
     translate([30, 5, 0])
-    curveElem(5, 1, 2, 1);
+    curveElem(5, w, th, 1);
     translate([35, 0, 0])
-    lineElem(5);
+    lineElem(5, w, th);
     translate([40, 0, 0])
-    curveElem(5, 1, 2, 3);
+    curveElem(5, w, th, 3);
     translate([40, 0, 0])
-    curveElem(5, 1, 2, 4);
+    curveElem(5, w, th, 4);
 }
 
-module spring() {
+module spring(w = 1, th = 2) {
     translate([0, 0, 0])
-    curveElem(3, 1, 2, 3);
+    curveElem(3, w, th, 3);
     translate([0, -6, 0])
-    curveElem(3, 1, 2, 2);
+    curveElem(3, w, th, 2);
     translate([0, 0, 0])
-    curveElem(3, 1, 2, 4);
+    curveElem(3, w, th, 4);
     translate([3, 0, 0])
-    lineElem(6);
+    lineElem(6, w, th);
     translate([6, 6, 0])
-    curveElem(3, 1, 2, 2);
+    curveElem(3, w, th, 2);
     translate([6, 6, 0])
-    curveElem(3, 1, 2, 1);
+    curveElem(3, w, th, 1);
     translate([9, -12, 0])
-    lineElem(18);
+    lineElem(18, w, th);
     translate([12, -12, 0])
-    curveElem(3, 1, 2, 3);
+    curveElem(3, w, th, 3);
     translate([12, -12, 0])
-    curveElem(3, 1, 2, 4);
+    curveElem(3, w, th, 4);
     translate([15, -12, 0])
-    lineElem(6);
+    lineElem(6, w, th);
     translate([18, -6, 0])
-    curveElem(3, 1, 2, 2);
+    curveElem(3, w, th, 2);
     translate([18, -6, 0])
-    curveElem(3, 1, 2, 1);
+    curveElem(3, w, th, 1);
     translate([18, 0, 0])
-    curveElem(3, 1, 2, 4);
+    curveElem(3, w, th, 4);
 }
 
 module partA1(loc_res = 32) {
-    translate([-3+0.5, -60, 0]) {
+    translate([-3+1, -60, 0]) {
         difference() {
             cube([20, 120, 22]);
             translate([10, 20, -0.5])
@@ -142,13 +142,37 @@ module partA1(loc_res = 32) {
         
             translate([-1, 60, 11])
             rotate([0, 90, 0])
-            cylinder(d = 6, h = 22, $fn = loc_res);    
+            cylinder(d = 6.2, h = 22, $fn = loc_res);    
         }
     }
 }
 
 module partA2(loc_res = 32) {
-    translate([-3+0.5, -60, 0]) {
+    translate([-3+1, -60, 0]) {
+        difference() {
+            cube([20, 120, 22]);
+            translate([10, 20, -0.5])
+            cylinder(d = 3.2, h = 22+1, $fn = loc_res);
+            translate([10, 20, -0.5])
+            cylinder(d = 7.2, h = 4.5, $fn = 6);
+            translate([10, 20+40, -0.5])
+            cylinder(d = 3.2, h = 22+1, $fn = loc_res);
+            translate([10, 20+40, -0.5])
+            cylinder(d = 7.2, h = 18.5, $fn = 6);
+            translate([10, 20+40+40, -0.5])
+            cylinder(d = 3.2, h = 22+1, $fn = loc_res);
+            translate([10, 20+40+40, -0.5])
+            cylinder(d = 7.2, h = 4.5, $fn = 6);
+        
+            translate([-1, 60, 11])
+            rotate([0, 90, 0])
+            cylinder(d = 6.5, h = 22, $fn = loc_res);
+        }
+    }
+}
+
+module partA3(loc_res = 32) {
+    translate([-3+1, -60, 0]) {
         difference() {
             cube([20, 120, 22]);
             translate([10, 20, -0.5])
@@ -180,20 +204,20 @@ module partA2(loc_res = 32) {
                 translate([-1, 85, 11])
                 rotate([0, 90, 0])
                 cylinder(d = 2, h = 22, $fn = loc_res);    
-                translate([-1, 60, 11])
+                translate([-1, 35, 11])
                 rotate([0, 90, 0])
                 cylinder(d = 2, h = 22, $fn = loc_res);    
             }
             translate([10, 20+40+15, -0.5])
-            cylinder(d = 5.5, h = 22+1, $fn = loc_res);
+            cylinder(d = 6.5, h = 22+1, $fn = loc_res);
             translate([10, 20+40+15, -0.5])
-            cylinder(d = 11, h = 4.5, $fn = 6);
+            cylinder(d = 12.5, h = 4.5, $fn = 6);
         }
     }
 }
 
 module partB(loc_res = 32) {
-    translate([-3+0.5, -60, 0]) {
+    translate([-3+1, -60, 0]) {
         difference() {
             cube([20, 120, 2]);
             translate([10, 20, -0.5])
@@ -207,7 +231,7 @@ module partB(loc_res = 32) {
 }
 
 module partC(loc_res = 32) {
-    translate([-3+0.5, -60, 0]) {
+    translate([-3+1, -60, 0]) {
         difference() {
             cube([20, 120, 8]);
             translate([10, 20, -0.5])
@@ -231,7 +255,7 @@ module partC(loc_res = 32) {
 }
 
 module partD(loc_res = 32) {
-    translate([-3+0.5, -60, 0]) {
+    translate([-3+1, -60, 0]) {
         difference() {
             cube([20, 120, 2]);
             translate([10, 20, -0.5])
@@ -244,28 +268,29 @@ module partD(loc_res = 32) {
     }
     translate([20, 40, 0])
     mirror([0, 0, 0])
-    spring();
+    spring(2, 2);
     translate([20, -40, 0])
     mirror([0, 1, 0])
-    spring();
-    translate([23+20-3+0.5, -60, 0]) {
+    spring(2, 2);
+    translate([23+20-3, -60, 0]) {
         difference() {
             cube([20, 120, 2]);
             translate([10, 20, -0.5])
             // senkkopf
-            cylinder(d1 = 3.2, d2 = 8, h = 2+1, $fn = loc_res);
+            cylinder(d1 = 3.2, d2 = 7, h = 2+1, $fn = loc_res);
             translate([10, 20+40, -0.5])
-            cylinder(d1 = 3.2, d2 = 8, h = 2+1, $fn = loc_res);
+            cylinder(d1 = 3.2, d2 = 7, h = 2+1, $fn = loc_res);
             translate([10, 20+40+40, -0.5])
-            cylinder(d1 = 3.2, d2 = 8, h = 2+1, $fn = loc_res);
+            cylinder(d1 = 3.2, d2 = 7, h = 2+1, $fn = loc_res);
             translate([10, 20+40+15, -0.5])
-            cylinder(d = 5.5, h = 22+1, $fn = loc_res);
+            cylinder(d = 6.5, h = 22+1, $fn = loc_res);
         }
     }
 }
 
 //partA1(); // 1x
-//partA2(); // 2x
+//partA2(); // 1x
+partA3(); // 1x
 //partB();  // 1x
 //partC();  // 2x
-partD();    // 1x
+//partD();    // 1x
