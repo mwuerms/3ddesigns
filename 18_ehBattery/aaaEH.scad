@@ -20,14 +20,14 @@ module ehPartA(loc_res = 32) {
     difference() {
         union() {
             translate([0, 0, 2])
-            cylinder(d = 6.2+1, h = 43-4, $fn = loc_res);
+            cylinder(d = 6.5+1, h = 43-4, $fn = loc_res);
             translate([0, 0, 2])
             cylinder(d = 10, h = (43-10)/2-2, $fn = loc_res);
             translate([0, 0, 2+(43-10)/2+10-2])
             cylinder(d = 10, h = (43-10)/2-2, $fn = loc_res);
         }
         translate([0, 0, -1])
-        cylinder(d = 6.2, h = 45, $fn = loc_res);
+        cylinder(d = 6.5, h = 45, $fn = loc_res);
         translate([10/2-0.5, -0.5, -1])
         cube([1, 1, 45]);
     }
