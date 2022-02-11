@@ -9,8 +9,8 @@ use <../lib/m3screw.scad>
 module dps3005(loc_res = 32) {
         color("DarkGray") {
         translate([0, 0, 0])
-        cube([71, 39, 37]);
-        translate([-(79-71)/2, -(43-39)/2, 34])
+        cube([72, 39, 37]);
+        translate([-(79-72)/2, -(43-39)/2, 34])
         cube([79, 43, 3]);
         translate([60, 22, 37])
         cylinder(d = 10, h = 11, $fn = loc_res);
@@ -19,7 +19,9 @@ module dps3005(loc_res = 32) {
 
 module dps3005_Cut(loc_res = 32) {
     translate([0, 0, 0])
-    cube([71, 39, 37]);
+    cube([72, 39, 37]);
+    translate([-2, 13, 0])
+    cube([76, 13, 35]);
 }
 
 module jack(col = "Black", jack_dia = 6, loc_res = 32) {
@@ -41,18 +43,21 @@ module caseFront(show_elements = 1, loc_res = 32) {
     if(show_elements) {
         translate([10, 20, 0])
         dps3005();
-        translate([1*71/6+10, 10, 34])
-        jack("Green");
-        translate([3*71/6+10, 10, 34])
+        translate([1*72/8+10, 10, 34])
         jack("Black");
-        translate([5*71/6+10, 10, 34])
+        translate([3*72/8+10, 10, 34])
         jack("Red");
+        translate([5*72/8+10, 10, 34])
+        jack("Black");
+        translate([7*72/8+10, 10, 34])
+        jack("Red");
+        
     }
     
     edge_rad = 4;
     wall_th = 2.5;
     thread_dia = 2.5;
-    xlen = 71+2*10;
+    xlen = 72+2*10;
     ylen = 39+10+20;
     xpos1 = edge_rad;
     ypos1 = edge_rad;
@@ -63,25 +68,25 @@ module caseFront(show_elements = 1, loc_res = 32) {
             translate([xpos1, ypos1, 0]) {
                 translate([0, 0, 0])
                 cylinder(r = edge_rad, h = 1, $fn = loc_res);
-                translate([0, 0, 34-edge_rad])
+                translate([0, 0, 35-edge_rad])
                 sphere(r = edge_rad, $fn = loc_res);
             }
             translate([xpos2, ypos1, 0]) {
                 translate([0, 0, 0])
                 cylinder(r = edge_rad, h = 1, $fn = loc_res);
-                translate([0, 0, 34-edge_rad])
+                translate([0, 0, 35-edge_rad])
                 sphere(r = edge_rad, $fn = loc_res);
             }
             translate([xpos2, ypos2, 0]) {
                 translate([0, 0, 0])
                 cylinder(r = edge_rad, h = 1, $fn = loc_res);
-                translate([0, 0, 34-edge_rad])
+                translate([0, 0, 35-edge_rad])
                 sphere(r = edge_rad, $fn = loc_res);
             }
             translate([xpos1, ypos2, 0]) {
                 translate([0, 0, 0])
                 cylinder(r = edge_rad, h = 1, $fn = loc_res);
-                translate([0, 0, 34-edge_rad])
+                translate([0, 0, 35-edge_rad])
                 sphere(r = edge_rad, $fn = loc_res);
             }
         }
@@ -89,12 +94,21 @@ module caseFront(show_elements = 1, loc_res = 32) {
         // elements
         translate([10, 20, 0])
         dps3005_Cut();
-        translate([1*71/6+10, 10, 34])
+        translate([1*72/8+10, 10, 35])
         jack_Cut();
-        translate([3*71/6+10, 10, 34])
+        translate([3*72/8+10, 10, 35])
         jack_Cut();
-        translate([5*71/6+10, 10, 34])
+        translate([5*72/8+10, 10, 35])
         jack_Cut();
+        translate([7*72/8+10, 10, 35])
+        jack_Cut();
+        // text
+        translate([1*72/8+14, 8, 34.5])
+        linear_extrude(1)
+        text("12V", size = 4);
+        translate([5*72/8+15.5, 8, 34.5])
+        linear_extrude(1)
+        text("adj", size = 4);
             
         difference() {
             hull() {
@@ -132,75 +146,91 @@ module caseBack(show_elements = 1, loc_res = 32) {
     edge_rad = 4;
     wall_th = 2.5;
     thread_dia = 2.5;
-    xlen = 71+2*10;
+    xlen = 72+2*10;
     ylen = 39+10+20;
     xpos1 = edge_rad;
     ypos1 = edge_rad;
     xpos2 = xlen-edge_rad;
     ypos2 = ylen-edge_rad;
     difference() {
-        hull() {
-            translate([xpos1, ypos1, 0]) {
-                sphere(r = edge_rad, $fn = loc_res);
-            }
-            translate([xpos2, ypos1, 0]) {
-                sphere(r = edge_rad, $fn = loc_res);
-            }
-            translate([xpos2, ypos2, 0]) {
-                sphere(r = edge_rad, $fn = loc_res);
-            }
-            translate([xpos1, ypos2, 0]) {
-                sphere(r = edge_rad, $fn = loc_res);
-            }
-        }
-        translate([-1, -1, 0])
-        cube([xlen+2, ylen+2, edge_rad+1]);
-        
-        translate([xpos1, ypos1, 10])
-        rotate([180, 0, 0])
-        m3SinkHeadScewNutCut(10);
-        translate([xpos2, ypos1, 10])
-        rotate([180, 0, 0])
-        m3SinkHeadScewNutCut(10);
-        translate([xpos2, ypos2, 10])
-        rotate([180, 0, 0])
-        m3SinkHeadScewNutCut(10);
-        translate([xpos1, ypos2, 10])
-        rotate([180, 0, 0])
-        m3SinkHeadScewNutCut(10);
-    }
-    difference() {
-            hull() {
-                translate([wall_th, wall_th, 0]) {
-                    cube([xlen-2*wall_th, ylen-2*wall_th, 2]);
-                }
-            }
-            translate([xpos1, ypos1, -2])
-            cylinder(r = edge_rad, h = 6, $fn = loc_res);
-            translate([xpos2, ypos1, -2])
-            cylinder(r = edge_rad, h = 6, $fn = loc_res);
-            translate([xpos2, ypos2, -2])
-            cylinder(r = edge_rad, h = 6, $fn = loc_res);
-            translate([xpos1, ypos2, -2])
-            cylinder(r = edge_rad, h = 6, $fn = loc_res);
+            union() {
             difference() {
                 hull() {
-                    translate([wall_th+1, wall_th+1, -1]) {
-                        cube([xlen-2*wall_th-2, ylen-2*wall_th-2, 4]);
+                    translate([xpos1, ypos1, 0]) {
+                        sphere(r = edge_rad, $fn = loc_res);
+                    }
+                    translate([xpos2, ypos1, 0]) {
+                        sphere(r = edge_rad, $fn = loc_res);
+                    }
+                    translate([xpos2, ypos2, 0]) {
+                        sphere(r = edge_rad, $fn = loc_res);
+                    }
+                    translate([xpos1, ypos2, 0]) {
+                        sphere(r = edge_rad, $fn = loc_res);
+                    }
+                }
+                translate([-1, -1, 0])
+                cube([xlen+2, ylen+2, edge_rad+1]);
+                
+                translate([xpos1, ypos1, 10])
+                rotate([180, 0, 0])
+                m3SinkHeadScewNutCut(10);
+                translate([xpos2, ypos1, 10])
+                rotate([180, 0, 0])
+                m3SinkHeadScewNutCut(10);
+                translate([xpos2, ypos2, 10])
+                rotate([180, 0, 0])
+                m3SinkHeadScewNutCut(10);
+                translate([xpos1, ypos2, 10])
+                rotate([180, 0, 0])
+                m3SinkHeadScewNutCut(10);
+            }
+            difference() {
+                hull() {
+                    translate([wall_th, wall_th, 0]) {
+                        cube([xlen-2*wall_th, ylen-2*wall_th, 2]);
                     }
                 }
                 translate([xpos1, ypos1, -2])
-                cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                cylinder(r = edge_rad, h = 6, $fn = loc_res);
                 translate([xpos2, ypos1, -2])
-                cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                cylinder(r = edge_rad, h = 6, $fn = loc_res);
                 translate([xpos2, ypos2, -2])
-                cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                cylinder(r = edge_rad, h = 6, $fn = loc_res);
                 translate([xpos1, ypos2, -2])
-                cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                cylinder(r = edge_rad, h = 6, $fn = loc_res);
+                difference() {
+                    hull() {
+                        translate([wall_th+1, wall_th+1, -1]) {
+                            cube([xlen-2*wall_th-2, ylen-2*wall_th-2, 4]);
+                        }
+                    }
+                    translate([xpos1, ypos1, -2])
+                    cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                    translate([xpos2, ypos1, -2])
+                    cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                    translate([xpos2, ypos2, -2])
+                    cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                    translate([xpos1, ypos2, -2])
+                    cylinder(r = edge_rad+1, h = 6, $fn = loc_res);
+                }
             }
         }
+        /*hull() {
+            translate([xlen/2, 0, -5])
+            cylinder(d = 8, h = 10, $fn = loc_res);
+            translate([xlen/2, 6, -5])
+            cylinder(d = 8, h = 10, $fn = loc_res);
+        }*/
+        hull() {
+            translate([xlen/2-9, 4.75, -5])
+            cylinder(d = 2.5, h = 10, $fn = loc_res);
+            translate([xlen/2+9, 4.75, -5])
+            cylinder(d = 2.5, h = 10, $fn = loc_res);
+        }
+    }
 }
-caseFront(0);
+//caseFront(0);
 
-translate([0, 0, -20])
+//translate([0, 0, -20])
 caseBack();
