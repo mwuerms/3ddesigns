@@ -17,6 +17,23 @@ module dps3005(loc_res = 32) {
     }
 }
 
+module switch_RD15131121() {
+    color("DarkGray") {
+        translate([0, 0, 0])
+        cube([19, 6.5, 15]);
+        translate([-1, -1.5, 15])
+        cube([21, 9.5, 2]);
+        translate([3, -1.5+(9.5-4.5)/2, 15.5])
+        rotate([0, 20, 0])
+        cube([8, 4.5, 4]);
+    }
+}
+
+module switch_RD15131121_Cut() {
+    translate([0, 0, 0])
+    cube([19.5, 6.5, 15]);
+}
+
 module dps3005_Cut(loc_res = 32) {
     translate([0, 0, 0])
     cube([72, 39, 37]);
@@ -41,7 +58,7 @@ module jack_Cut(jack_dia = 6, loc_res = 32) {
 
 module caseFront(show_elements = 1, loc_res = 32) {
     if(show_elements) {
-        translate([10, 20, 0])
+        translate([10, 20+10, 0])
         dps3005();
         translate([1*72/8+10, 10, 34])
         jack("Black");
@@ -52,13 +69,18 @@ module caseFront(show_elements = 1, loc_res = 32) {
         translate([7*72/8+10, 10, 34])
         jack("Red");
         
+        translate([5*72/8+10, 18, 34-15])
+        switch_RD15131121();
+        translate([1*72/8+10, 18, 34-15])
+        switch_RD15131121();
+        
     }
     
     edge_rad = 4;
     wall_th = 2.5;
     thread_dia = 2.5;
     xlen = 72+2*10;
-    ylen = 39+10+20;
+    ylen = 39+10+20+10;
     xpos1 = edge_rad;
     ypos1 = edge_rad;
     xpos2 = xlen-edge_rad;
@@ -92,7 +114,7 @@ module caseFront(show_elements = 1, loc_res = 32) {
         }
         
         // elements
-        translate([10, 20, 0])
+        translate([10, 20+10, 0])
         dps3005_Cut();
         translate([1*72/8+10, 10, 35])
         jack_Cut();
@@ -109,6 +131,10 @@ module caseFront(show_elements = 1, loc_res = 32) {
         translate([5*72/8+15.5, 8, 34.5])
         linear_extrude(1)
         text("adj", size = 4);
+        translate([5*72/8+10, 18, 34-10])
+        switch_RD15131121_Cut();
+        translate([1*72/8+10, 18, 34-10])
+        switch_RD15131121_Cut();
             
         difference() {
             hull() {
@@ -147,7 +173,7 @@ module caseBack(show_elements = 1, loc_res = 32) {
     wall_th = 2.5;
     thread_dia = 2.5;
     xlen = 72+2*10;
-    ylen = 39+10+20;
+    ylen = 39+10+20+10;
     xpos1 = edge_rad;
     ypos1 = edge_rad;
     xpos2 = xlen-edge_rad;
