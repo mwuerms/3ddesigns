@@ -4,7 +4,7 @@
  * holder for toothbrushes
  */
 
-// v1.0
+// v2.0
 // phillips sonicare HX367W1 220926, adult
 // simplified re-design, bottom is not a circle
 module tbrush1(loc_res = 32) {
@@ -172,8 +172,78 @@ module tbholder1(loc_res = 32) {
     }
 }
 
+// 18/2 = 4.5 -> 4.4 cm
+module tbholder2(wid = 44, loc_res = 32) {
+    // base plate
+    difference() {
+        hull() {
+            translate([-wid/2, -wid/2, -10])
+            cube([wid, wid-1, 9]);
+            translate([-wid/2+1, -wid/2, -10])
+            cube([wid-2, wid, 9]);
+            translate([-wid/2+1, -wid/2, -10])
+            cube([wid-2, wid-1, 10]);
+        }
+        // middle pin
+        translate([0, 0, -12])
+        cylinder(d = 6, h = 20, $fn = loc_res);
+    }
+    difference() {
+        union() {
+            translate([-wid/2, -wid/2, -wid])
+            cube([wid, 4, wid-4]);
+            
+            hull() {
+                translate([-wid/2, -wid/2, -wid])
+                cube([2, 4, wid-6]);
+                translate([-wid/2, wid/2-4-1, -10])
+                cube([2, 4, 4]);
+            }
+            hull() {
+                translate([wid/2-2, -wid/2, -wid])
+                cube([2, 4, wid-6]);
+                translate([wid/2-2, wid/2-4-1, -10])
+                cube([2, 4, 4]);
+            }
+        }
+        translate([-(wid/2+4), -10, -16])
+        rotate([90, 0, 90])
+        cylinder(d = 3, h = wid+6, $fn = loc_res);
+        translate([-(wid/2+4), -10, -28])
+        rotate([90, 0, 90])
+        cylinder(d = 3, h = wid+6, $fn = loc_res);
+    
+        translate([10, -17, -16])
+        rotate([90, 0, 0]) {
+            cylinder(d = 3.4, h = 16, $fn = loc_res);
+            translate([0, 0, 0])
+            cylinder(d2 = 3, d1 = 8, h = 3, $fn = loc_res);
+        }
+        translate([-10, -17, -16])
+        rotate([90, 0, 0]) {
+            cylinder(d = 3.4, h = 16, $fn = loc_res);
+            translate([0, 0, 0])
+            cylinder(d2 = 3, d1 = 8, h = 3, $fn = loc_res);
+        }
+        translate([0, -17, -32])
+        rotate([90, 0, 0]) {
+            cylinder(d = 3.4, h = 16, $fn = loc_res);
+            translate([0, 0, 0])
+            cylinder(d2 = 3, d1 = 8, h = 3, $fn = loc_res);
+        }
+    }
+}
+
 module tbrush1_test() {
     tbholder1();
+    difference() {
+        tbrush1();
+        *cube(100);
+    }
+}
+
+module tbrush1_test2() {
+    tbholder2();
     difference() {
         tbrush1();
         *cube(100);
@@ -189,6 +259,7 @@ module tbrush3_test() {
     tbholder1();
     tbrush3();
 }
+/*
 *translate([ 50, 0, 0])
 tbrush1_test();
 *translate([100, 0, 0])
@@ -198,4 +269,31 @@ tbrush3_test();
 *translate([-50, 0, 0])
 charging_dock1();
 
-tbholder1();
+*tbholder1();
+
+translate([0, 0, -20])
+linear_extrude(20)
+polygon([[0, 0], [180, 0], [130, 200], [0, 200]]);
+
+translate([0*40+25, 25, 0])
+tbrush3();
+translate([1*40+25, 25, 0])
+tbrush3();
+translate([2*40+25, 25, 0])
+tbrush3();
+translate([3*40+25, 25, 0])
+tbrush3();
+
+translate([40, 100, 20])
+rotate([0, 0, 90])
+charging_dock1();
+
+translate([40, 150, 20])
+rotate([0, 0, 90])
+charging_dock1();
+*/
+
+*translate([  0, 0, 0])
+tbrush1_test2();
+
+tbholder2();
