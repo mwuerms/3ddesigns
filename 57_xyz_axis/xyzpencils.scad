@@ -37,7 +37,7 @@ module xyzaxis_holder(loc_res = 32) {
                 pencil("Red", 10, 13, loc_res);
                 translate([0, 0, 0])
                 rotate([0, 90, 0])
-                pencil("Red", 25, 9.0, loc_res);
+                pencil("Red", 25, 9.5, loc_res);
             }
             // y-axis
             hull() {
@@ -46,7 +46,7 @@ module xyzaxis_holder(loc_res = 32) {
                 pencil("Green", 10, 13, loc_res);
                 translate([0, 0, 0])
                 rotate([0, 90, 90])
-                pencil("Green", 25, 9, loc_res);
+                pencil("Green", 25, 9.5, loc_res);
             }
             // z-axis
             hull() {
@@ -55,37 +55,37 @@ module xyzaxis_holder(loc_res = 32) {
                 pencil("Blue", 10, 13, loc_res);
                 translate([0, 0, 0])
                 rotate([0, 0, 0])
-                pencil("Blue", 25, 9.0, loc_res);
+                pencil("Blue", 25, 9.5, loc_res);
             }
             translate([0, 0, 0])
             sphere(d = 13, $fn = loc_res);
         }
         // x-axis
         hull() {
-            translate([15, 0, 0])
+            translate([13, 0, 0])
             rotate([0, 90, 0])
-            pencil("Red", 40, 7.7);
+            pencil("Red", 40, 8.2);
             translate([5, 0, 0])
             rotate([0, 90, 0])
-            pencil("Red", 40, 7.0);
+            pencil("Red", 40, 7.7);
         }
         // y-axis
         hull() {
-            translate([0, 15, 0])
+            translate([0, 13, 0])
             rotate([0, 90, 90])
-            pencil("Green", 40, 7.7);
+            pencil("Green", 40, 8.2);
             translate([0, 5, 0])
             rotate([0, 90, 90])
-            pencil("Green", 40, 7.0);
+            pencil("Green", 40, 7.7);
         }
         // z-axis
         hull() {
-            translate([0, 0, 15])
+            translate([0, 0, 13])
             rotate([0, 0, 0])
-            pencil("Blue", 40, 7.7);
+            pencil("Blue", 40, 8.2);
             translate([0, 0, 5])
             rotate([0, 0, 0])
-            pencil("Blue", 40, 7.0);
+            pencil("Blue", 40, 7.7);
         }
     }
 }
