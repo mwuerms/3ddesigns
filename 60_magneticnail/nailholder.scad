@@ -52,7 +52,7 @@ module magnet4x555Cut(loc_res = 32) {
 module nail(loc_res = 32) {
     color("Silver")
     translate([0, 0, 0])
-    cylinder(d = 6, h = 1, $fn = loc_res);
+    cylinder(d = 4.5, h = 1, $fn = loc_res);
     color("Silver")
     translate([0, 0, 0])
     cylinder(d = 2, h = 20, $fn = loc_res);
@@ -64,9 +64,9 @@ module nail(loc_res = 32) {
 
 module nailCut(loc_res = 32) {
     translate([0, 0, -10])
-    cylinder(d = 7, h = 10+1, $fn = loc_res);
+    cylinder(d = 5, h = 10+1, $fn = loc_res);
     translate([0, 0, 0])
-    cylinder(d = 2.2, h = 20, $fn = loc_res);
+    cylinder(d = 2, h = 20, $fn = loc_res);
 }
 
 module nailholder(show_components = 1, loc_res = 32) {
@@ -109,4 +109,5 @@ module nailholder(show_components = 1, loc_res = 32) {
     }
 }
 
-nailholder(0, loc_res = 32);
+rotate([180-8, 0, 0])
+nailholder(0, loc_res = 32*2);
