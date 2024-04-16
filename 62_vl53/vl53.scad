@@ -44,6 +44,23 @@ module vl53l1xSensorCover(th1 = 1.6+0.4, loc_res = 32*4*2) {
         text("0.4 mm", size = 4);
     }
 }
+module glas1_5_220adapter(th2 = 2, loc_res = 32*16) {
+    difference() {
+        union() {
+            translate([0, 0, 0])
+            cylinder(d = 30, h = th2, $fn = loc_res);
+            hull() {
+                translate([0, 0, 0])
+                cylinder(d = 10, h = th2, $fn = loc_res);
+                translate([-30, 0, 0])
+                cylinder(d = 10, h = th2, $fn = loc_res);
+            }
+        }
+        translate([0, 0, -1])
+        cylinder(d = 22.5, h = th2+2, $fn = loc_res);
+    }
+}
 *vl53l1xSensorPCB();
+*vl53l1xSensorCover(); // print 1 x
 
-vl53l1xSensorCover(); // print 1 x
+glas1_5_220adapter();
