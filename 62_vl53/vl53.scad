@@ -35,13 +35,31 @@ module vl53l1xSensorCut(loc_res = 32) {
     cube([1.8, 1.9, 4]);
 }
 
-module vl53l1xSensorCover(th1 = 1.6+0.4, loc_res = 32*4*2) {
+module vl53l1xSensorCut_J5050(loc_res = 32) {
+    vl53l1xSensorCut();
+    // J5050 is 14 x 10.5, X-axis centered, but y-axis NOT centred
+    // cut 14.2 x 12 mm centered piece
+    translate([-14.2/2, -12.2/2, -3])
+    cube([14.2, 12.2, 3]);
+    // edges
+    translate([-14.2/2, -12.2/2, -3])
+    cylinder(d = 1, h = 3, $fn = loc_res);
+    translate([-14.2/2, +12.2/2, -3])
+    cylinder(d = 1, h = 3, $fn = loc_res);
+    translate([+14.2/2, -12.2/2, -3])
+    cylinder(d = 1, h = 3, $fn = loc_res);
+    translate([+14.2/2, +12.2/2, -3])
+    cylinder(d = 1, h = 3, $fn = loc_res);
+}
+
+module vl53l1xSensorCover_1_1(th1 = 1.6+0.2, loc_res = 32*4*2) {
     difference() {
-        cylinder(d = 30, h = th1, $fn = loc_res);
-        vl53l1xSensorCut();
-        translate([-10, -10, 1])
+        translate([0, 0, -2])
+        cylinder(d = 30, h = th1+2, $fn = loc_res);
+        vl53l1xSensorCut_J5050();
+        translate([-10, -10, th1-0.2])
         linear_extrude(10)
-        text("0.4 mm", size = 4);
+        text("0.2 mm", size = 4);
     }
 }
 module glas1_5_220adapter(th2 = 2, loc_res = 32*16) {
@@ -60,7 +78,6 @@ module glas1_5_220adapter(th2 = 2, loc_res = 32*16) {
         cylinder(d = 22.5, h = th2+2, $fn = loc_res);
     }
 }
-*vl53l1xSensorPCB();
-*vl53l1xSensorCover(); // print 1 x
-
-glas1_5_220adapter();
+vl53l1xSensorPCB();
+*glas1_5_220adapter(); // print 2 x
+vl53l1xSensorCover_1_1();  // print 1 x
