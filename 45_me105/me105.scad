@@ -82,7 +82,7 @@ module rounded_side(dia1 = 58*2, h1 = 40) {
         cylinder(d = 1.5, h = dia1, $fn = res);
         translate([0, 0, 2])
         rotate([90, 0, -6*90/8])
-        cylinder(d^= 1.5, h = dia1, $fn = res);
+        cylinder(d= 1.5, h = dia1, $fn = res);
         translate([0, 0, 2])
         rotate([90, 0, -8*90/8])
         cylinder(d = 1.5, h = dia1, $fn = res);
