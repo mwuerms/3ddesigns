@@ -132,10 +132,25 @@ module filter8cm(col = "Gray") {
     translate([-wid1/2, -wid1/2, 0])
     cube([wid1, wid1, 10]);
 }
-filter8cm();
+*filter8cm();
 
 module filter(col = "Gray", loc_res = 32) {
     color(col)
     translate([-130/2, -130/2, 0])
     cube([130, 130, 11]);
 }
+
+module m5Nut(loc_res = 32) {
+    difference() {
+        cylinder(d = 9, h = 4, $fn = 6);
+        translate([0, 0, -1])
+        cylinder(d = 5, h = 6, $fn = loc_res);
+    }
+}
+*m5Nut();
+
+module m5Nut_cut(len = 4+1, loc_res = 32) {
+    cylinder(d = 9.6, h = len, $fn = 6);
+    cylinder(d = 5, h = len+4, $fn = loc_res);
+}
+m5Nut_cut();

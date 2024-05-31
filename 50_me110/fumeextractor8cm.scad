@@ -17,18 +17,32 @@ module part2(col = "Red", loc_res = 32) {
     distz = 12;
     // mounting holes for M3 or M4 screws
     m_holes = 3.2; // 4.5
-    {
+    color(col) {
         difference() {
             // outer shell
-            hull() {
-                translate([+distxy2, +distxy2, 0])
-                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
-                translate([+distxy2, -distxy2, 0])
-                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
-                translate([-distxy2, +distxy2, 0])
-                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
-                translate([-distxy2, -distxy2, 0])
-                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+            union() {
+                hull() {
+                    translate([+distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                    translate([+distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                    translate([-distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                    translate([-distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                }
+                // M5 mounting nut
+                hull() {
+                    translate([+distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                    translate([40-2.5, -(40-2.5), 6])
+                    rotate([0, 0, -45])
+                    rotate([0, 90, 0])
+                    rotate([0, 0, 30]) {
+                        cylinder(d = hi1, h = 6-1, $fn = loc_res);
+                        cylinder(d = hi1-2, h = 6, $fn = loc_res);
+                    }
+                }
             }
             // inner shell cut out
             translate([0, 0, -1])
@@ -42,6 +56,12 @@ module part2(col = "Red", loc_res = 32) {
                 translate([-distxy2, -distxy2, 0])
                 cylinder(r=rad_edge-1, h=hi1+2, $fn = loc_res);
             }
+            // M5 mounting nut + hole
+            translate([40-5, -(40-5), 6])
+            rotate([0, 0, -45])
+            rotate([0, 90, 0])
+            rotate([0, 0, 30])
+            m5Nut_cut(len = 7.5);
         }    
         // add honey comb cover
         translate([0, 0, hi1-hi2]) {
@@ -92,7 +112,12 @@ module part2(col = "Red", loc_res = 32) {
             }
         }
     }
-    
+    // show M5 Nut
+    *translate([40+2, -(40+2), 6])
+    rotate([0, 0, -45])
+    rotate([0, 90, 0])
+    rotate([0, 0, 30])
+    m5Nut();
 }
 
 // stand
@@ -206,20 +231,17 @@ module put_together(loc_res = 32) {
     rotate([180, 0, 0])
     vent8cm("orange");
 
-    translate([0, 0, 14])
+    translate([0, 0, 0])
     filter8cm("LightBlue");
 
-    translate([0, 0, 55])
+    translate([0, 0, 0])
     part2();
-
-    *translate([120, 0, 26])
-    part3();
 }
 
-//put_together();
+put_together();
 
 
 // Printing
-part2("Green", 64*2);    // 1x
+*part2("Green", 64*2);    // 1x
 //part3("Green", 64);    // 1x
 //part4("Green", 64);    // 4x
