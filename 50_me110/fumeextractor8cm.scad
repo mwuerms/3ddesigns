@@ -226,6 +226,39 @@ module part4(col = "Violet", loc_res = 32) {
     }
 }
 
+module part5(col = "LightGreen", show_screw = 1, loc_res = 32) {
+    color(col) {
+        difference() {
+            union() {
+                hull() {
+                    translate([0, 0, -6])
+                    cylinder(d = 11, h = 3, $fn = loc_res);
+                    translate([0, 30, -6])
+                    cylinder(d = 11, h = 3, $fn = loc_res);
+                }
+            }
+            // ball cut out
+            translate([0, 0, 0]) {
+                sphere(d = 9.2, $fn = loc_res);
+                translate([0, 0, -7])
+                cylinder(d = 5, h = 6, $fn = loc_res);
+            }
+            translate([0, 30, 0]) {
+                sphere(d = 9.2, $fn = loc_res);
+                translate([0, 0, -7])
+                cylinder(d = 5, h = 6, $fn = loc_res);
+            }
+            translate([0, 15, -7])
+            cylinder(d = 5, h = 6, $fn = loc_res);
+        }
+    }
+    if(show_screw) {
+        translate([0, -(25-9/2), 0])
+        rotate([-90, 0, 0])
+        m5ballhead_screw();
+    }
+}
+
 module put_together(loc_res = 32) {
     translate([0, 0, 0])
     rotate([180, 0, 0])
@@ -238,10 +271,11 @@ module put_together(loc_res = 32) {
     part2();
 }
 
-put_together();
+*put_together();
 
 
 // Printing
-*part2("Green", 64*2);    // 1x
+part2("Green", 64*2);    // 1x
 //part3("Green", 64);    // 1x
 //part4("Green", 64);    // 4x
+*part5(show_screw = 0, loc_res = 64); // 2 x

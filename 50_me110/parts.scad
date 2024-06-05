@@ -153,4 +153,18 @@ module m5Nut_cut(len = 4+1, loc_res = 32) {
     cylinder(d = 9.6, h = len, $fn = 6);
     cylinder(d = 5, h = len+4, $fn = loc_res);
 }
-m5Nut_cut();
+*m5Nut_cut();
+
+module m5ballhead_screw(m5_dia = 5, len = 22, loc_res = 32) {
+    difference() {
+        union() {
+            cylinder(d = m5_dia, h = len, $fn = loc_res);
+            translate([0, 0, 25-9/2])
+            sphere(d = 9, $fn = loc_res);
+        }
+        translate([0, 0, 25-1])
+        cylinder(d = 3, h = 3, $fn = 6);
+     
+    }
+}
+m5ballhead_screw();
