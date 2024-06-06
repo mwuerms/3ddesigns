@@ -11,8 +11,8 @@ module ztuningtemplate_part(xsize = 10, ysize = 2, zsize = 0.2) {
     
 module ztuningtemplate(thickness = 0.2) {
     for(n = [0:1:6]) {
-        translate([0, n*2, 0])
-        ztuningtemplate_part(10, 2, thickness);
+        translate([0, n*4, 0])
+        ztuningtemplate_part(30, 4, thickness);
     }
 }
 
