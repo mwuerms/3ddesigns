@@ -167,4 +167,19 @@ module m5ballhead_screw(m5_dia = 5, len = 22, loc_res = 32) {
      
     }
 }
-m5ballhead_screw();
+*m5ballhead_screw();
+
+module m3Nut(loc_res = 32) {
+    difference() {
+        cylinder(d = 6, h = 2.5, $fn = 6);
+        translate([0, 0, -1])
+        cylinder(d = 3, h = 6, $fn = loc_res);
+    }
+}
+*m3Nut();
+
+module m3Nut_cut(len = 2.5+1, loc_res = 32) {
+    cylinder(d = 6.3, h = len, $fn = 6);
+    cylinder(d = 3.2, h = len+10, $fn = loc_res);
+}
+*m3Nut_cut();
