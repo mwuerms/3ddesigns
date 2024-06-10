@@ -231,27 +231,27 @@ module part5a(col = "LightGreen", show_screw = 1, loc_res = 32) {
         difference() {
             union() {
                 hull() {
-                    translate([0, 0, -6])
+                    translate([0, 0, 3])
                     cylinder(d = 10, h = 3, $fn = loc_res);
-                    translate([0, 16, -6])
+                    translate([0, 16, 3])
                     cylinder(d = 10, h = 3, $fn = loc_res);
                 }
-                translate([0, 8, -6])
+                translate([0, 8, 1])
                 cylinder(d = 7, h = 5, $fn = loc_res);
             }
             // ball cut out
             translate([0, 0, 0]) {
                 sphere(d = 9.2, $fn = loc_res);
                 translate([0, 0, -7])
-                cylinder(d = 5, h = 6, $fn = loc_res);
+                cylinder(d = 5, h = 16, $fn = loc_res);
             }
             translate([0, 16, 0]) {
                 sphere(d = 9.2, $fn = loc_res);
                 translate([0, 0, -7])
-                cylinder(d = 5, h = 6, $fn = loc_res);
+                cylinder(d = 5, h = 16, $fn = loc_res);
             }
-            translate([0, 8, -9-1])
-            m3Nut_cut();
+            translate([0, 8, 6])
+            m3Sinkhead_cut();
         }
     }
     if(show_screw) {
@@ -263,8 +263,8 @@ module part5a(col = "LightGreen", show_screw = 1, loc_res = 32) {
         rotate([90, 0, 0])
         m5ballhead_screw();
         
-        *translate([0, 8, -9-1])
-        m3Nut_cut();
+        *translate([0, 8, 6])
+        m3Sinkhead_cut();
     }
 }
 

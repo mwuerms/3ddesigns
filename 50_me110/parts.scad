@@ -183,3 +183,12 @@ module m3Nut_cut(len = 2.5+1, loc_res = 32) {
     cylinder(d = 3.2, h = len+10, $fn = loc_res);
 }
 *m3Nut_cut();
+
+module m3Sinkhead_cut(len = 4, loc_res = 32) {
+    cylinder(d = 6.2, h = len, $fn = loc_res);
+    translate([0, 0, -2])
+    cylinder(d1 = 3.2, d2 = 6.2, h = 2, $fn = loc_res);
+    translate([0, 0, -(len+10)])
+    cylinder(d = 3.2, h = len+10, $fn = loc_res);
+}
+m3Sinkhead_cut();
