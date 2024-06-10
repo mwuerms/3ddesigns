@@ -5,7 +5,96 @@
  */
 use <parts.scad>
 
-module part2(col = "Red", loc_res = 32) {
+module part2a(col = "Orange", loc_res = 32) {
+    distxy = (77.5+65)/2;
+    rad_edge = (80-distxy)/2;
+    distxy2 = distxy/2;
+    hi1 = 1;
+    distxy3 = distxy2-1;
+    distxy4 = distxy2;
+    edge_rad = rad_edge;
+    distz = 12;
+    
+    // mounting holes for M3 or M4 screws
+    m_holes = 3.2; // 4.5
+    color(col) {
+        difference() {
+            // outer shell
+            hull() {
+                translate([+distxy2, +distxy2, 0])
+                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                translate([+distxy2, -distxy2, 0])
+                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                translate([-distxy2, +distxy2, 0])
+                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                translate([-distxy2, -distxy2, 0])
+                cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+            }
+            // inner shell
+            translate([0, 0,-1])
+            hull() {
+                translate([+distxy2, +distxy2, 0])
+                cylinder(r=rad_edge-1, h=hi1+2, $fn = loc_res);
+                translate([+distxy2, -distxy2, 0])
+                cylinder(r=rad_edge-1, h=hi1+2, $fn = loc_res);
+                translate([-distxy2, +distxy2, 0])
+                cylinder(r=rad_edge-1, h=hi1+2, $fn = loc_res);
+                translate([-distxy2, -distxy2, 0])
+                cylinder(r=rad_edge-1, h=hi1+2, $fn = loc_res);
+            }
+        }    
+        // add honey comb cover
+        translate([0, 0, 0]) {
+            difference() {
+                union() {
+                    difference() {
+                        hull() {
+                            translate([+distxy2, +distxy2, 0])
+                            cylinder(r=rad_edge-1, h=hi1, $fn = loc_res);
+                            translate([+distxy2, -distxy2, 0])
+                            cylinder(r=rad_edge-1, h=hi1, $fn = loc_res);
+                            translate([-distxy2, +distxy2, 0])
+                            cylinder(r=rad_edge-1, h=hi1, $fn = loc_res);
+                            translate([-distxy2, -distxy2, 0])
+                            cylinder(r=rad_edge-1, h=hi1, $fn = loc_res);
+                            }
+                        // honeycomb grill
+                        honey_th = 3;
+                        honey_rad = 7.5;// good: 8.3;
+                        honey_dia = 8;
+                        for(n = [-10:1:10]) {
+                            for(m = [-10:1:10]) {
+                                xmov = n*honey_rad*sin(60);
+                                ymov = n*honey_rad*cos(60);
+                                translate([xmov, m*honey_rad+ymov, -1])
+                                cylinder(d = honey_dia, h = honey_th+2, $fn = 6);
+                            }
+                        }
+                    }
+                    translate([+distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                    translate([+distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                    translate([-distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                    translate([-distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=hi1, $fn = loc_res);
+                }
+                // M3/4 holes
+                translate([+distxy2, +distxy2, -1])
+                cylinder(d=m_holes, h=hi1+2, $fn = loc_res);
+                translate([+distxy2, -distxy2, -1])
+                cylinder(d=m_holes, h=hi1+2, $fn = loc_res);
+                translate([-distxy2, +distxy2, -1])
+                cylinder(d=m_holes, h=hi1+2, $fn = loc_res);
+                translate([-distxy2, -distxy2, -1])
+                cylinder(d=m_holes, h=hi1+2, $fn = loc_res);
+            }
+        }
+    }
+}
+
+module part2b(col = "Red", loc_res = 32) {
     distxy = (77.5+65)/2;
     rad_edge = (80-distxy)/2;
     distxy2 = distxy/2;
@@ -15,6 +104,7 @@ module part2(col = "Red", loc_res = 32) {
     distxy4 = distxy2;
     edge_rad = rad_edge;
     distz = 12;
+    echo(distxy);
     // mounting holes for M3 or M4 screws
     m_holes = 3.2; // 4.5
     color(col) {
@@ -311,24 +401,53 @@ module part5b(col = "LightGreen", show_screw = 1, loc_res = 32) {
     }
 }
 
+module part6(loc_res = 32) {
+    difference() {
+        union() {
+            cylinder(d = 5.5, h = 4, $fn = loc_res);
+            cylinder(r = 4.375, h = 2, $fn = loc_res);
+        }
+        translate([0, 0, -1])
+        cylinder(d = 3.3, h = 4+2, $fn = loc_res);
+    }
+}
+
 module put_together(loc_res = 32) {
-    translate([0, 0, 0])
-    rotate([180, 0, 0])
+    translate([0, 0, -11-2])
     vent8cm("orange");
 
-    translate([0, 0, 0])
+    translate([0, 0, 4+4])
     filter8cm("LightBlue");
 
-    translate([0, 0, 0])
-    part2();
+    translate([0, 0, 14+2])
+    rotate([180, 0, 0])
+    part2b();
+    
+    translate([0, 0, 22+2])
+    part2a();
+    
+    translate([+71.25/2, +71.25/2, 2])
+    rotate([180, 0, 0])
+    part6();
+    translate([-71.25/2, +71.25/2, 2])
+    rotate([180, 0, 0])
+    part6();
+    translate([+71.25/2, -71.25/2, 2])
+    rotate([180, 0, 0])
+    part6();
+    translate([-71.25/2, -71.25/2, 2])
+    rotate([180, 0, 0])
+    part6();
 }
 
 *put_together();
 
 
 // Printing
-*part2("Green", 64*2);    // 1x
+part2a("Green", 64*2);    // 1x
+*part2b("Green", 64*2);    // 1x
 //part3("Green", 64);    // 1x
 //part4("Green", 64);    // 4x
-part5a(show_screw = 0, loc_res = 64); // 1 x
+*part5a(show_screw = 0, loc_res = 64); // 1 x
 *part5b(show_screw = 0, loc_res = 64); // 1 x
+*part6(loc_res = 64); // 4 x
