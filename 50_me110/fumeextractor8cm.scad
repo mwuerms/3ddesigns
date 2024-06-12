@@ -94,7 +94,7 @@ module part2a(col = "Orange", loc_res = 32) {
     }
 }
 
-module part2b(col = "Red", loc_res = 32) {
+module part2b(col = "Red", show_screws = 1, loc_res = 32) {
     distxy = (77.5+65)/2;
     rad_edge = (80-distxy)/2;
     distxy2 = distxy/2;
@@ -202,12 +202,20 @@ module part2b(col = "Red", loc_res = 32) {
             }
         }
     }
-    // show M5 Nut
-    *translate([40+2, -(40+2), 6])
-    rotate([0, 0, -45])
-    rotate([0, 90, 0])
-    rotate([0, 0, 30])
-    m5Nut();
+    if(show_screws) {
+        // show M5 Nut
+        translate([40+2, -(40+2), 6])
+        rotate([0, 0, -45])
+        rotate([0, 90, 0])
+        rotate([0, 0, 30])
+        m5Nut();
+
+        translate([40, -(40), 6])
+        rotate([0, 0, -45])
+        rotate([0, 90, 0])
+        rotate([0, 0, 30])
+        m5ballhead_screw();
+    }
 }
 
 // stand
@@ -421,7 +429,7 @@ module put_together(loc_res = 32) {
 
     translate([0, 0, 14+2])
     rotate([180, 0, 0])
-    part2b();
+    part2b(show_screws = 0);
     
     translate([0, 0, 22+2])
     part2a();
@@ -440,14 +448,135 @@ module put_together(loc_res = 32) {
     part6();
 }
 
-*put_together();
+module stand1(col = "LightBlue", show_screw = 1, loc_res = 32) {
+    color(col)
+    difference() {
+        union() {
+            translate([0, 0, -5]) {
+                hull() {
+                    translate([+3, -9, 0]) {
+                        cylinder(d = 6, h = 9, $fn = loc_res);
+                        cylinder(d = 3, h = 10, $fn = loc_res);
+                    }
+                    translate([+3, +9, 0]) {
+                        cylinder(d = 6, h = 9, $fn = loc_res);
+                        cylinder(d = 3, h = 10, $fn = loc_res);
+                    }
+                    translate([-3, -9, 0]) {
+                        cylinder(d = 6, h = 9, $fn = loc_res);
+                        cylinder(d = 3, h = 10, $fn = loc_res);
+                    }
+                    translate([-3, +9, 0]) {
+                        cylinder(d = 6, h = 9, $fn = loc_res);
+                        cylinder(d = 3, h = 10, $fn = loc_res);
+                    }
+                }
+                // bottom stand
+                hull() {
+                    translate([+5, -9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                    translate([+5, +9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                    translate([-5, -9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                    translate([-5, +9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                }
+                // side stands
+                hull() {
+                    translate([+5, -9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                    translate([+(3+20), -(9+60), 0])
+                    cylinder(d = 6, h = 1.5, $fn = loc_res);
+                }
+                hull() {
+                    translate([+5, +9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                    translate([+(3+20), +(9+60), 0])
+                    cylinder(d = 6, h = 1.5, $fn = loc_res);
+                }
+                hull() {
+                    translate([-5, -9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                    translate([-(3+40), -(9+40), 0])
+                    cylinder(d = 6, h = 1.5, $fn = loc_res);
+                }
+                hull() {
+                    translate([-5, +9, 0])
+                    cylinder(d = 10, h = 1.5, $fn = loc_res);
+                    translate([-(3+40), +(9+40), 0])
+                    cylinder(d = 6, h = 1.5, $fn = loc_res);
+                }
+            }
+        }
+        // cut in half
+        translate([-2/2, -30/2, -6])
+        cube([2, 30, 20]);
+        // cut out screws
+        translate([0, 0, (25-9/2)])
+        rotate([180, 0, 0])
+        m5ballhead_screw_cut();
+        
+        translate([4, 7.5, 0])
+        rotate([0, 90, 0])
+        m3Sinkhead_cut();
+        
+        translate([-6.5, 7.5, 0])
+        rotate([0, 90, 0])
+        m3Nut_cut();
+        
+        translate([4, -7.5, 0])
+        rotate([0, 90, 0])
+        m3Sinkhead_cut();
+        
+        translate([-6.5, -7.5, 0])
+        rotate([0, 90, 0])
+        m3Nut_cut();
+        // additional round cut at the bottom
+        translate([0, 0, -6])
+        cylinder(d = 5, h = 4, $fn = loc_res);
+    }
+    if(show_screw) {
+        translate([0, 0, (25-9/2)])
+        rotate([180, 0, 0])
+        m5ballhead_screw();
+        
+        translate([4, 7.5, 0])
+        rotate([0, 90, 0])
+        m3Sinkhead_cut();
+        
+        translate([-6.5, 7.5, 0])
+        rotate([0, 90, 0])
+        m3Nut_cut();
+        
+        translate([4, -7.5, 0])
+        rotate([0, 90, 0])
+        m3Sinkhead_cut();
+        
+        translate([-6.5, -7.5, 0])
+        rotate([0, 90, 0])
+        m3Nut_cut();
+    }
+}
+
+module put_together_stand(loc_res = 32) {
+    translate([-10, 0, 75])
+    rotate([0, 90, 0]) 
+    rotate([0, 0, -45]) {
+        put_together();
+    }
+    stand1();
+}
+*put_together_stand();
 
 
 // Printing
-part2a("Green", 64*2);    // 1x
+*part2a("Green", 64*2);    // 1x
 *part2b("Green", 64*2);    // 1x
 //part3("Green", 64);    // 1x
 //part4("Green", 64);    // 4x
 *part5a(show_screw = 0, loc_res = 64); // 1 x
 *part5b(show_screw = 0, loc_res = 64); // 1 x
 *part6(loc_res = 64); // 4 x
+
+stand1(show_screw = 0, loc_res = 64);

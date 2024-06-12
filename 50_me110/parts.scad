@@ -169,6 +169,13 @@ module m5ballhead_screw(m5_dia = 5, len = 22, loc_res = 32) {
 }
 *m5ballhead_screw();
 
+module m5ballhead_screw_cut(m5_dia = 5.3, len = 22, loc_res = 32) {
+    cylinder(d = m5_dia, h = len, $fn = loc_res);
+    translate([0, 0, 25-9/2])
+    sphere(d = 9.4, $fn = loc_res);
+}
+m5ballhead_screw_cut();
+
 module m3Nut(loc_res = 32) {
     difference() {
         cylinder(d = 6, h = 2.5, $fn = 6);
@@ -179,7 +186,7 @@ module m3Nut(loc_res = 32) {
 *m3Nut();
 
 module m3Nut_cut(len = 2.5+1, loc_res = 32) {
-    cylinder(d = 6.3, h = len, $fn = 6);
+    cylinder(d = 6.8, h = len, $fn = 6);
     cylinder(d = 3.2, h = len+10, $fn = loc_res);
 }
 *m3Nut_cut();
@@ -191,4 +198,4 @@ module m3Sinkhead_cut(len = 4, loc_res = 32) {
     translate([0, 0, -(len+10)])
     cylinder(d = 3.2, h = len+10, $fn = loc_res);
 }
-m3Sinkhead_cut();
+*m3Sinkhead_cut();
