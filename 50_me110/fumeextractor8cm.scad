@@ -14,6 +14,8 @@ module part2a(col = "Orange", loc_res = 32) {
     distxy4 = distxy2;
     edge_rad = rad_edge;
     distz = 12;
+    //echo("rad_edge: ", rad_edge);
+    //echo("distxy2: ", distxy2);
     
     // mounting holes for M3 or M4 screws
     m_holes = 3.2; // 4.5
@@ -559,6 +561,284 @@ module stand1(col = "LightBlue", show_screw = 1, loc_res = 32) {
     }
 }
 
+module microscope_holder(col = "LightGreen", micro_dummy = 0, loc_res = 32) {
+    rad_edge = 4.375;
+    distxy2 = 35.625;
+    color(col) {
+        difference() {
+            union() {
+                hull() {
+                    translate([0, 0, 0])
+                    cylinder(d = 70, h = 2, $fn = loc_res);
+                    // front
+                    translate([-10/2, -37, 0])
+                    cube([10, 4, 2]);
+                    // back
+                    translate([-10/2, 37-4, 0])
+                    cube([10, 4, 2]);
+                }
+                // front
+                hull() {
+                    translate([-5, -37, 5])
+                    rotate([0, 90, 0])
+                    cylinder(d = 10, h = 10, $fn = loc_res);
+                    translate([-10/2, -37, 0])
+                    cube([10, 6, 2]);
+                }
+                // back
+                hull() {
+                    translate([-5, 37, 5])
+                    rotate([0, 90, 0])
+                    cylinder(d = 10, h = 10, $fn = loc_res);
+                    translate([-10/2, 37-6, 0])
+                    cube([10, 6, 2]);
+                }
+                // right part
+                // connect middle ring to part2a
+                translate([90, -20, 0])
+                part2a(col, loc_res);
+                hull() {
+                    translate([4.5, -(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([90, -20, 0])
+                    translate([-distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=1, $fn = loc_res);
+                }
+                hull() {
+                    translate([4.5, -(35-.5), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([90, -20, 0])
+                    translate([-distxy2-2, -(distxy2+rad_edge-1.6), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([4.5, +(35), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([90, -20, 0])
+                    translate([-distxy2-2, -(distxy2+rad_edge-1.7), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([4.5, +(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([90, -20, 0])
+                    translate([-distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=1, $fn = loc_res);
+                }
+                hull() {
+                    translate([4.5, +(35), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([90, -20, 0])
+                    translate([-distxy2, +(distxy2+rad_edge-0.8), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([4.5, -(35), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([90, -20, 0])
+                    translate([-distxy2, +(distxy2+rad_edge-0.8), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([4.5, -(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([4.5, +(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([90, -20, 0]) {
+                        translate([-distxy2-4, -(distxy2), 0])
+                        cylinder(d=1, h=1, $fn = loc_res);
+                        translate([-distxy2-4, +(distxy2), 0])
+                        cylinder(d=1, h=1, $fn = loc_res);
+                    }
+                }
+                // additional 1mm standoffs
+                translate([90, -20, 0]) {
+                    translate([-distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                    translate([-distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                    translate([+distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                    translate([+distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                }
+                
+                // left part
+                // connect middle ring to part2a
+                translate([-90, -20, 0])
+                part2a(col, loc_res);
+                hull() {
+                    translate([-4.5, -(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([-90, -20, 0])
+                    translate([+distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=1, $fn = loc_res);
+                }
+                hull() {
+                    translate([-4.5, -(35-0.5), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([-90, -20, 0])
+                    translate([+(distxy2+2), -(distxy2+rad_edge-1.5), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([-4.5, +(35), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([-90, -20, 0])
+                    translate([+(distxy2+2), -(distxy2+rad_edge-1.5), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([-4.5, +(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([-90, -20, 0])
+                    translate([+distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=1, $fn = loc_res);
+                }
+                hull() {
+                    translate([-4.5, +(35), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([-90, -20, 0])
+                    translate([+distxy2, +(distxy2+rad_edge-0.8), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([-4.5, -(35), 0])
+                    cylinder(d = 2, h = 2, $fn = loc_res);
+                    translate([-90, -20, 0])
+                    translate([+distxy2, +(distxy2+rad_edge-0.8), 0])
+                    cylinder(d=2, h=2, $fn = loc_res);
+                }
+                hull() {
+                    translate([-4.5, -(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([-4.5, +(35-6/2), 0])
+                    cylinder(d = 6, h = 1, $fn = loc_res);
+                    translate([-90, -20, 0]) {
+                        translate([+distxy2+4, -(distxy2), 0])
+                        cylinder(d=1, h=1, $fn = loc_res);
+                        translate([+distxy2+4, +(distxy2), 0])
+                        cylinder(d=1, h=1, $fn = loc_res);
+                    }
+                }
+                // additional 1mm standoffs
+                translate([-90, -20, 0]) {
+                    translate([-distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                    translate([-distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                    translate([+distxy2, -distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                    translate([+distxy2, +distxy2, 0])
+                    cylinder(r=rad_edge, h=2, $fn = loc_res);
+                }
+            }
+            // microscope cut out
+            translate([0, 0, -1])
+            cylinder(d = 58, h = 2.5+2, $fn = loc_res);
+            // cut in half
+            translate([-3/2, -100/2, -4])
+            cube([3, 100, 20]);
+            // M3 nuts n bolts
+            translate([4, -37, 5])
+            rotate([0, 90, 0])
+            m3Sinkhead_cut();
+            translate([-6.5, -37, 5])
+            rotate([0, 90, 0])
+            rotate([0, 0, 30])
+            m3Nut_cut();
+            translate([4, 37, 5])
+            rotate([0, 90, 0])
+            m3Sinkhead_cut();
+            translate([-6.5, 37, 5])
+            rotate([0, 90, 0])
+            rotate([0, 0, 30])
+            m3Nut_cut();
+            // right part
+            // part2a m3 cutouts
+            translate([90, -20, -1]) {
+                translate([-distxy2, -distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+                translate([-distxy2, +distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+                translate([+distxy2, -distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+                translate([+distxy2, +distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+            }
+            // left part
+            // part2a m3 cutouts
+            translate([-90, -20, -1]) {
+                translate([-distxy2, -distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+                translate([-distxy2, +distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+                translate([+distxy2, -distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+                translate([+distxy2, +distxy2, 0])
+                cylinder(d = 3.3, h=5, $fn = loc_res);
+            }
+        }
+    }
+    if(micro_dummy) {
+        // microscope
+        translate([0, 0, 0])
+        cylinder(d = 58, h = 2.5, $fn = loc_res);
+        translate([0, 0, 2.5])
+        cylinder(d = 60, h = 2, $fn = loc_res);
+        translate([0, 0, -4])
+        cylinder(d = 60, h = 4, $fn = loc_res);
+        // Light
+        translate([0, 0, -4-8])
+        cylinder(d = 74, h = 8, $fn = loc_res);
+        // M4 holder screws
+        translate([0, 0, -4-8+4])
+        rotate([90, 0, 0]) {
+            rotate([0, 0, 0])
+            cylinder(d = 4, h = (26+74/2), $fn = loc_res);
+            rotate([0, 120, 0])
+            cylinder(d = 4, h = (26+74/2), $fn = loc_res);
+            rotate([0, -120, 0])
+            cylinder(d = 4, h = (26+74/2), $fn = loc_res);
+        }
+        translate([0, 0, -4-8-20])
+        cylinder(d = 93, h = 20, $fn = loc_res);
+        
+        // M3 nuts n bolts
+        translate([4, -37, 5])
+        rotate([0, 90, 0])
+        m3Sinkhead_cut();
+        translate([-6.5, -37, 5])
+        rotate([0, 90, 0])
+        rotate([0, 0, 30])
+        m3Nut_cut();
+        translate([4, 37, 5])
+        rotate([0, 90, 0])
+        m3Sinkhead_cut();
+        translate([-6.5, 37, 5])
+        rotate([0, 90, 0])
+        rotate([0, 0, 30])
+        m3Nut_cut();
+    }
+}
+*microscope_holder();
+// right side, cut out left side
+module microscope_holder_right(col = "LightGreen", micro_dummy = 0, loc_res = 32) {
+    difference() {
+        microscope_holder(col = col, micro_dummy = micro_dummy, loc_res = loc_res);
+        translate([-200, -100, -40])
+        cube([200, 200, 100]);
+    }
+}
+// left side, cut out right side
+module microscope_holder_left(col = "LightGreen", micro_dummy = 0, loc_res = 32) {
+    difference() {
+        microscope_holder(col = col, micro_dummy = micro_dummy, loc_res = loc_res);
+        translate([0, -100, -40])
+        cube([200, 200, 100]);
+    }
+}
+
 module put_together_stand(loc_res = 32) {
     translate([-10, 0, 75])
     rotate([0, 90, 0]) 
@@ -579,4 +859,6 @@ module put_together_stand(loc_res = 32) {
 *part5b(show_screw = 0, loc_res = 64); // 1 x
 *part6(loc_res = 64); // 4 x
 
-stand1(show_screw = 0, loc_res = 64);
+*stand1(show_screw = 0, loc_res = 64);
+*microscope_holder_right(micro_dummy = 0, loc_res = 32*8); // 1 x
+*microscope_holder_left(micro_dummy = 0, loc_res = 32*8); // 1 x
