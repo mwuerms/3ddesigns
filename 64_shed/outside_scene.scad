@@ -91,7 +91,7 @@ module scene() {
         }
     }
     // metal construction
-    module pilar(col1 = "Gray", col2 = "Silver") {
+    module pilar(show_curtain_arm = 0, col1 = "Gray", col2 = "Silver") {
         color(col2) {
             translate([-40, -40, 0])
             cube([2*40+80, 2*40+80, 180]);
@@ -106,14 +106,40 @@ module scene() {
             translate([0, 0, 0])
             cube([80, 80, 2800]);
         }
+        if(show_curtain_arm) {
+            color(col2) {
+                translate([80, 25/2, 1380])
+                rotate([0, 90, 0])
+                cylinder(d = 15, h = 20, $fn = 6);
+                translate([80, 80/2, 2660])
+                rotate([0, 90, 0])
+                cylinder(d = 80, h = 1600, $fn = 32);
+                translate([83, 40+80-25/2, 2600])
+                rotate([0, 90, 0])
+                cylinder(d = 15, h = 1600, $fn = 32);
+            }
+            color(col1) {
+                hull() {
+                    translate([83, 25/2, 1380])
+                    rotate([0, 90, 0])
+                    cylinder(d = 25, h = 10, $fn = 32);
+                    translate([83, 40+80-25/2, 2600])
+                    rotate([0, 90, 0])
+                    cylinder(d = 25, h = 10, $fn = 32);
+                }
+            }
+        }
     }
     translate([40, 40, 0])
     pilar();
     translate([40, 1800-80, 0])
-    pilar();
+    pilar(1);
+    // rain funnel
+    color("DarkGray")
+    translate([40, 1800+40+70/2, 0])
+    cylinder(d = 70, h = 3000);
+    
     // floor
-
-
     color("Silver") {
         difference() {
             translate([610, 0, -10])
