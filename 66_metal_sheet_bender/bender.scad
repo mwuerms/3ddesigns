@@ -101,5 +101,11 @@ module puttogether(loc_res = 32) {
 }
 *puttogether();
 
-bender1(loc_res = 128);
-bender2(loc_res = 128);
+// print parts
+bender1(loc_res = 128); // 1 x
+*bender2(loc_res = 128); // 1 x
+
+*mirror([0, 0, 1])
+bender1(loc_res = 128); // 1 x mirrored
+*mirror([0, 0, 1])
+bender2(loc_res = 128); // 1 x mirrored
